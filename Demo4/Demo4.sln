@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo4-MoveShape-Native", "Demo4-MoveShape-Native\Demo4-MoveShape-Native.csproj", "{244CFC2A-49C1-457D-9028-0011C3662280}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo5-MoveShape-Daemon", "Demo5-MoveShape-Daemon\Demo5-MoveShape-Daemon.csproj", "{C0641C1A-BBC7-443A-87D1-2A45A1D955FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{244CFC2A-49C1-457D-9028-0011C3662280}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{244CFC2A-49C1-457D-9028-0011C3662280}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{244CFC2A-49C1-457D-9028-0011C3662280}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{244CFC2A-49C1-457D-9028-0011C3662280}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0641C1A-BBC7-443A-87D1-2A45A1D955FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0641C1A-BBC7-443A-87D1-2A45A1D955FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0641C1A-BBC7-443A-87D1-2A45A1D955FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0641C1A-BBC7-443A-87D1-2A45A1D955FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

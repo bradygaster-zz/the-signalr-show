@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+
+    <img src="content/brady.jpg" id="shape" />
+
+    <script src="../Scripts/jquery-1.6.4.js"></script>
+    <script src="../Scripts/jquery-ui-1.11.4.js"></script>
+    <script src="../Scripts/jquery.signalR-2.2.0.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var shape = $("#shape");
+
+            // the connection object
+            var con = $.hubConnection();
+
+            // the hub
+            var hub = con.createHubProxy("moveShape");
+
+            // the hub's event handler
+            hub.on("shapeMoved", function (x, y) {
+                shape.css("left", x);
+                shape.css("top", y);
+                shape.text(x + ',' + y);
+            });
+
+            // set up jQuery draggable-ness
+            shape.draggable({
+                drag: function () {
+                    var self = $(this),
+                        x = this.offsetLeft,
+                        y = this.offsetTop;
+                    hub.invoke("MoveShape", x, y);
+                }
+            });
+
+            // start the connection
+            con.start().done(function () {
+            });
+        });
+    </script>
+
+</body>
+</html>
