@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Page Hit Count</h1>
+            <p id="pageCount"></p>
+        </div>
+    </div>
+
+    <script src="Scripts/jquery-1.9.1.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var con = $.hubConnection();
+            var hub = con.createHubProxy('hitCounter');
+            hub.on('hitCounted', function (hitCount) {
+                $('#pageCount').text(hitCount);
+            });
+            con.start();
+        });
+    </script>
+
+</body>
+</html>

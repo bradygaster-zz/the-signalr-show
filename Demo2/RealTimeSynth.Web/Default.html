@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SignalR Synth</title>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <style>
+        body {
+            margin-top: 30px;
+            font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+        }
+
+        a {
+            color: #242323;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        a:hover{
+            text-decoration: underline;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Segoe UI Light', Arial, Helvetica, sans-serif;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" ng-app="myApp" ng-controller="pageCtrlr">
+
+        <div class="jumbotron">
+            <h1>SignalR Synthesizer</h1>
+            <p>Let's play some "music" together in real time with <a href="http://signalr.net/">SignalR</a> and <a href="http://littlebits.cc">littleBits!</a></p>
+        </div>
+
+        <div class="row">
+            <div class="row">
+                <div class="col-sm-3">Active Users ({{model.userCount}})</div>
+                <div class="col-sm-4">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-info" role="progressbar" ng-style="{width:model.userCount + '%'}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">Users Active ({{model.activePct + '%'}})</div>
+                <div class="col-sm-4">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" role="progressbar" ng-style="{width: model.activePct + '%'}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">Users Inactive ({{model.inActivePct + '%'}})</div>
+                <div class="col-sm-4">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-danger" role="progressbar" ng-style="{width: model.inActivePct + '%'}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-offset-3">
+                <button ng-class="model.buttonClass" ng-mousedown="activate()" ng-mouseup="deactivate()">{{model.buttonText}}</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="Scripts/jquery-1.9.1.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/angular.js"></script>
+
+    <script type="text/javascript">
+        var app = angular.module('myApp', []);
+        app.value('$', $);
+
+        app.controller('pageCtrlr', function ($scope) {
+
+            $scope.model = {
+                userCount: 0,
+                activePct: 0,
+                inActivePct: 0,
+                buttonText: 'Activate',
+                buttonClass: 'btn btn-danger'
+            };
+
+            $scope.connect = function () {
+                $scope.connection = $.hubConnection();
+
+                $scope.hub = $scope.connection.createHubProxy('filterHub');
+
+                $scope.hub.on('valueChanged', function (value) {
+                    console.log(value);
+
+                    $scope.$apply(function () {
+                        $scope.model.userCount = value.userCount;
+                        $scope.model.activePct = value.activePct;
+                        $scope.model.inActivePct = value.inActivePct;
+                    });
+
+                    console.log($scope.model.userCount + ',' + $scope.model.activePct + ',' + $scope.model.inActivePct);
+                });
+
+                $scope.connection.start().done(function () {
+                });
+            };
+
+            $scope.deactivate = function () {
+                $scope.model.buttonClass = 'btn btn-danger';
+                $scope.model.buttonText = "Activate";
+                $scope.hub.invoke('deactivate');
+            };
+
+            $scope.activate = function () {
+                $scope.model.buttonClass = 'btn btn-success';
+                $scope.model.buttonText = "Deactivate";
+                $scope.hub.invoke('activate');
+            };
+
+            $scope.connect();
+        });
+    </script>
+</body>
+
+</html>
